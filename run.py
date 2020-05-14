@@ -4,30 +4,39 @@
 from cloud import Servers
 
 
-Ttask = 4
-Umax = 2
+Ttask = 0
+Umax = 0
 
 #the run simulation function
 def runSimulation(fileInputName, Ttask, Umax):
     
     ticks = 0
     
-    #open files
+    #abrir arquivos
     #f = open("example.txt", "r")
     fin = open(fileInputName, "r")
     fout = open("output.txt", "w")
-    
+    users = fin.read()
+
+    users = users[::2]  
+    Ttask = int(users[0])
+    Umax =  int(users[1]) 
+    # import ipdb; ipdb.set_trace() 
+
     #instanciate servers
     servers = Servers(Umax, Ttask)
     
     #loop reading file input
-    for usersPerLine in fin:
+    for index, usersPerLine in enumerate(users):
+    
         
         
         #get data and cast
         usersPerLine = int(usersPerLine)
         
-        if (usersPerLine != 0):
+
+
+        if (usersPerLine != 0) and (index>=2):
             
             #increment tick
             servers.incrementTicks()
@@ -38,24 +47,24 @@ def runSimulation(fileInputName, Ttask, Umax):
             #print
             #servers.printServers()
             
-        else:
+        elif(usersPerLine == 0) and (index>=2):
             #increment tick
             servers.incrementTicks()
             
             #print
             #servers.printServers()
         
-        #write the output line
+        #imprimir output
         fout.write(str(servers.printServersForOutput())+"\n")
         
         #increment tick
         ticks += 1
     
-    #close files
+    #fechar arquivos
     fin.close()
     fout.close()
 
-    #print the costs
+    #imprimir custo final
     servers.printCosts()
     
 #------------------------------------------------------------------------

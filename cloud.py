@@ -13,7 +13,7 @@ class Server:
     
     def addUser(self, id):
         
-        #create user
+        #criar usuário
         newUser = User(id)
         
         if (len(self.users) < self.Umax):
@@ -21,18 +21,18 @@ class Server:
             self.users.append(newUser)
             return True
         else:
-            #raise Exception('The server is full')
+            #raise Exception('servidor cheio')
             print('Try to add user '+str(id)+', but the Server id= '+str(self.id)+', The server is full')
             return False
 
     #----------------------------------------------------------
     
     def incrementTick(self):
-        #loop to increment
+        #loop pra incrementar
         for u in self.users:
             u.incrementTicks()
         
-        #remove users done
+        #remover usuários que finalizaram
         self.removeUsersFinished()
     #----------------------------------------------------------
         
@@ -47,7 +47,7 @@ class Server:
     def printServerUsers(self):
         
         if (len(self.users) == 0):
-            print('Serverid = '+str(self.id)+'No more users left on server')
+            print('Serverid = '+str(self.id)+'Nenhum usuário encontrado no servidor')
         else:
             print('------------------------')
             print('Serverid = '+str(self.id))
@@ -87,15 +87,15 @@ class Servers:
     #----------------------------------------------------------
     
     def createServer(self, id):
-        #create server
+        #criar servidor
         s = Server(id, self.Umax, self.Ttmax)
         
-        #append to the list
+        #adicionar na lista
         self.sList.append(s)
     #----------------------------------------------------------
     
     def addUser(self):
-        #verify if there are any server
+        #verificar se existe algum outro server
         if (len(self.sList) == 0):
             
             self.serverIdCount += 1
@@ -128,17 +128,17 @@ class Servers:
         self.tickCount += 1
         
         if (len(self.sList) == 0):
-            print('There are no servers o increment')
+            print('Não existem servers pra incrementar')
         else:
             for s in self.sList:
                 s.incrementTick()
-                
-        #increment costs
+         
+        #incrementar custos
         self.costs += len(self.sList)
-        import ipdb; ipdb.sset_trace()
+        # import ipdb; ipdb.sset_trace()
         self.serverListPerTick.append(len(self.sList))
         
-        #loop to get the useless server
+        #loop pra pegar server que nao esta sendo usado
         for s in self.sList:
             newList = [x for x in self.sList if len(x.users) != 0]
             self.sList = newList
