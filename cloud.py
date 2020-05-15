@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 
 class Server:
     
@@ -21,10 +19,7 @@ class Server:
             self.users.append(newUser)
             return True
         else:
-            #raise Exception('servidor cheio')
-            print('Try to add user '+str(id)+', but the Server id= '+str(self.id)+', The server is full')
             return False
-
     #----------------------------------------------------------
     
     def incrementTick(self):
@@ -37,12 +32,11 @@ class Server:
     #----------------------------------------------------------
         
     def removeUsersFinished(self):
-        #interate the list and get only the users that have ticks less than Ttmax
+        #Pegar só users que tem os ticks menor que o Ttmax
         newList = [x for x in self.users if x.ticksCount < self.Ttmax]
         self.users = newList
         del(newList)
     #----------------------------------------------------------
-    
     
     def printServerUsers(self):
         
@@ -58,21 +52,8 @@ class Server:
     def getNumberOfUsers(self):
         return len(self.users)
     #----------------------------------------------------------
-
 #------------------------------------------------------------------------  
         
-    
-#s = Server(1,2,4)
-
-#s.addUser(1)
-#s.addUser(2)
-#s.addUser(3)
-
-#s.printServerUsers()
-
-# -*- coding: utf-8 -*-
-
-
 class Servers:
     
     def __init__(self, Umax, Ttmax):
@@ -127,37 +108,28 @@ class Servers:
         
         self.tickCount += 1
         
-        if (len(self.sList) == 0):
-            print('Não existem servers pra incrementar')
-        else:
+        
+        if (len(self.sList) != 0):
             for s in self.sList:
                 s.incrementTick()
          
         #incrementar custos
         self.costs += len(self.sList)
-        # import ipdb; ipdb.sset_trace()
         self.serverListPerTick.append(len(self.sList))
         
+
         #loop pra pegar server que nao esta sendo usado
         for s in self.sList:
             newList = [x for x in self.sList if len(x.users) != 0]
             self.sList = newList
             del(newList)
             
-        
-        
-        #print('\n')
-        #print('--------------')
-        #print('TickCount = '+str(self.tickCount))
-        #print('--------------')
-    
-    def printServers(self):
-        if (len(self.sList) == 0):
-            print('There are no servers')
-        else:
+
+    def printServers(self):        
+        if (len(self.sList) != 0):
             for s in self.sList:
                 s.printServerUsers()
-    #----------------------------------------------------------
+    
     
     def printCosts(self):
         print ('Costs = $'+str(self.costs))
@@ -177,82 +149,9 @@ class Servers:
                 line = line+","+str(s.getNumberOfUsers())
                 
         return line
-        
-         
+    
 #------------------------------------------------------------------------
                 
-
-#s = Servers(2, 4)
-
-
-
-#print(s.sList)
-
-#1
-#3
-#0
-#1
-#0
-#1
-#0
-#0
-#0
-#0
-
-#s.incrementTicks()
-#s.addUser()
-#s.printServers()
-#s.printServersForOutput()
-#
-#s.incrementTicks()
-#s.addUser()
-#s.addUser()
-#s.addUser()
-#s.printServers()
-#s.printServersForOutput()
-#
-#s.incrementTicks()
-#s.printServers()
-#s.printServersForOutput()
-#
-#s.incrementTicks()
-#s.addUser()
-#s.printServers()
-#s.printServersForOutput()
-#
-#s.incrementTicks()
-#s.printServers()
-#s.printServersForOutput()
-#
-#s.incrementTicks()
-#s.addUser()
-#s.printServers()
-#s.printServersForOutput()
-#
-#s.incrementTicks()
-#s.printServers()
-#s.printServersForOutput()
-#
-#s.incrementTicks()
-#s.printServers()
-#s.printServersForOutput()
-#
-#s.incrementTicks()
-#s.printServers()
-#s.printServersForOutput()
-#
-#s.incrementTicks()
-#s.printServers()
-#s.printServersForOutput()
-#
-#s.printCosts()
-#
-#print(s.ss)
-#
-#print(sum(s.ss))
-
-# -*- coding: utf-8 -*-
-
 class User:
     
     def __init__(self, id):
@@ -267,6 +166,4 @@ class User:
         
     def incrementTicks(self):
         self.ticksCount += 1
-
-
 #------------------------------------------------------------------------

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 #import
 from cloud import Servers
 
@@ -16,29 +14,30 @@ def runSimulation(fileInputName, Ttask, Umax):
     #f = open("example.txt", "r")
     fin = open(fileInputName, "r")
     fout = open("output.txt", "w")
-    users = fin.read()
 
-    users = users[::2]  
-    Ttask = int(users[0])
-    Umax =  int(users[1]) 
-    # import ipdb; ipdb.set_trace() 
+    # abrindo arquivo pra extrair parametros
+    parameters = fin.read() 
+    Ttask = int(parameters[0])
+    Umax =  int(parameters[2])
+    
 
-    #instanciate servers
+    fin.close()
+
+    fin = open(fileInputName, "r")
+       
+    #instanciando servers
     servers = Servers(Umax, Ttask)
     
-    #loop reading file input
-    for index, usersPerLine in enumerate(users):
+    #lendo arquivo de input
+    for index, usersPerLine in enumerate(fin):
     
+        #obtendo dados
+        usersPerLine = int(usersPerLine) if index > 1 else None
         
         
-        #get data and cast
-        usersPerLine = int(usersPerLine)
-        
-
-
-        if (usersPerLine != 0) and (index>=2):
+        if (usersPerLine != 0) and (usersPerLine != None):
             
-            #increment tick
+            #incrementando ticks
             servers.incrementTicks()
             
             for user in range(usersPerLine):
@@ -47,29 +46,22 @@ def runSimulation(fileInputName, Ttask, Umax):
             #print
             #servers.printServers()
             
-        elif(usersPerLine == 0) and (index>=2):
-            #increment tick
+        elif(usersPerLine == 0) and (usersPerLine != None):
+            #incrementando ticks
             servers.incrementTicks()
             
-            #print
-            #servers.printServers()
-        
         #imprimir output
-        fout.write(str(servers.printServersForOutput())+"\n")
-        
-        #increment tick
-        ticks += 1
+        if (servers.printServersForOutput() != '0'):
+            fout.write(str(servers.printServersForOutput())+"\n")
+        #incrementar tick
+            ticks += 1
     
     #fechar arquivos
     fin.close()
+    fout.write(str(servers.costs)+"\n")
     fout.close()
 
-    #imprimir custo final
-    servers.printCosts()
     
 #------------------------------------------------------------------------
-    
-#RUNNING
-#runSimulation("example.txt", 4, 2)
+
 runSimulation("input.txt", Ttask, Umax)
-#runSimulation("input2 (1).txt", Ttask, Umax)
